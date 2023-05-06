@@ -1,0 +1,66 @@
+#+title: Simple REPL
+#+author: Gleefre
+#+email: varedif.a.s@gmail.com
+
+#+language: en
+#+options: toc:nil
+
+=Simple REPL= is a very simple REPL to use over TCP.
+* Quickstart
+  Both client and server require ~usocket~ and ~bordeaux-threads~.
+
+  Clone project to your ~local-projects~ directory.
+  To load the server:
+  #+BEGIN_SRC lisp
+  (ql:quickload :simple-repl/server)
+  #+END_SRC
+  Then start the server on the port ~4017~:
+  #+BEGIN_SRC lisp
+  (simple-repl/server:run 4017)
+  #<SB-THREAD:THREAD tid=148753 "simple repl [localhost:5017]" RUNNING {1003AAD853}>
+  #+END_SRC
+  This will spawn a new thread.
+  You can also run the server in the current thread, blocking it
+  until the client disconnects from it:
+  #+BEGIN_SRC lisp
+  (simple-repl/server:run-in-current-thread 4017)
+  #+END_SRC
+  
+  To load the client:
+  #+BEGIN_SRC lisp
+  (ql:quickload :simple-repl/client)
+  #+END_SRC
+  To connect to the server on the port ~4017~:
+  #+BEGIN_SRC lisp
+  (simple-repl/server:run 4017)
+  * 
+  #+END_SRC
+  This opens the simple REPL.
+
+  Initially ~*package*~ is bound to ~#<PACKAGE "COMMON-LISP-USER">~.
+  The REPL is very simple, though it supports ~*~, ~**~, ~***~, ~+~, ~++~, ~+++~, ~/~, ~//~, ~///~, ~-~.
+
+  To close the server set the special variable ~*close*~ in the ~simple-repl/server~ package to ~T~:
+  #+BEGIN_SRC lisp
+  (setf simple-repl/server:*close* t)
+  #+END_SRC
+  The connection will be closed, but the REPL will be still hanging.
+  Just enter any line to return to the initial REPL.
+* Bugs & Contributions
+  Feel free to report bugs or make suggestions by filing an issue on github.
+
+  Feel free to submit pull requests on github as well.
+* License
+  Copyright 2023 Gleefre
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
